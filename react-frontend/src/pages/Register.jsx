@@ -20,35 +20,32 @@ const Register = () => {
     if (password1 !== password2) {
       alert("The passwords do not match");
     } else {
-      
       try {
         const res = await api.post("/api/user/register/", {
-          "username": username,
-          "password": password1,
-          "first_name": firstName,
-          "last_name": lastName,
-          "email": email,
-      });
-        alert("Registered Successfully!")
+          username: username,
+          password: password1,
+          first_name: firstName,
+          last_name: lastName,
+          email: email,
+        });
+        alert("Registered Successfully!");
         navigate("/login");
-
       } catch (error) {
         alert(error);
       } finally {
         setLoading(false);
       }
     }
-
-
-  }
+  };
 
   return (
     <>
-        <>
-          <h1>Registration Page...</h1>
+      <div className="bg-base-200">
 
+        <h1 className="flex justify-center p-10">Registration Page...</h1>
+        <div className="flex justify-center">
           <form method="POST" onSubmit={handleSubmit}>
-            <label className="input input-bordered flex items-center gap-2">
+            <label className="input input-bordered flex items-center gap-2 min-w-[500px]">
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 viewBox="0 0 16 16"
@@ -57,7 +54,13 @@ const Register = () => {
               >
                 <path d="M8 8a3 3 0 1 0 0-6 3 3 0 0 0 0 6ZM12.735 14c.618 0 1.093-.561.872-1.139a6.002 6.002 0 0 0-11.215 0c-.22.578.254 1.139.872 1.139h9.47Z" />
               </svg>
-              <input type="text" className="grow" placeholder="Username" value={username} onChange={(e) => setUsername(e.target.value)}/>
+              <input
+                type="text"
+                className="grow"
+                placeholder="Username"
+                value={username}
+                onChange={(e) => setUsername(e.target.value)}
+              />
             </label>
             <p>
               Required. 150 characters or fewer. Letters, digits and @/./+/-/_
@@ -65,11 +68,23 @@ const Register = () => {
             </p>
 
             <label className="input input-bordered flex items-center gap-2">
-              <input type="text" className="grow" placeholder="First Name" value={firstName} onChange={(e) => setFirstName(e.target.value)}/>
+              <input
+                type="text"
+                className="grow"
+                placeholder="First Name"
+                value={firstName}
+                onChange={(e) => setFirstName(e.target.value)}
+              />
             </label>
 
             <label className="input input-bordered flex items-center gap-2">
-              <input type="text" className="grow" placeholder="Last Name" value={lastName} onChange={(e) => setLastname(e.target.value)} />
+              <input
+                type="text"
+                className="grow"
+                placeholder="Last Name"
+                value={lastName}
+                onChange={(e) => setLastname(e.target.value)}
+              />
             </label>
 
             <label className="input input-bordered flex items-center gap-2">
@@ -82,7 +97,13 @@ const Register = () => {
                 <path d="M2.5 3A1.5 1.5 0 0 0 1 4.5v.793c.026.009.051.02.076.032L7.674 8.51c.206.1.446.1.652 0l6.598-3.185A.755.755 0 0 1 15 5.293V4.5A1.5 1.5 0 0 0 13.5 3h-11Z" />
                 <path d="M15 6.954 8.978 9.86a2.25 2.25 0 0 1-1.956 0L1 6.954V11.5A1.5 1.5 0 0 0 2.5 13h11a1.5 1.5 0 0 0 1.5-1.5V6.954Z" />
               </svg>
-              <input type="text" className="grow" placeholder="Email" value={email} onChange={(e) => setEmail(e.target.value)}/>
+              <input
+                type="text"
+                className="grow"
+                placeholder="Email"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+              />
             </label>
             <label className="input input-bordered flex items-center gap-2">
               <svg
@@ -97,13 +118,23 @@ const Register = () => {
                   clipRule="evenodd"
                 />
               </svg>
-              <input type="password" className="grow" placeholder="Password" value={password1} onChange={(e) => setPassword1(e.target.value)}/>
+              <input
+                type="password"
+                className="grow"
+                placeholder="Password"
+                value={password1}
+                onChange={(e) => setPassword1(e.target.value)}
+              />
             </label>
             <p>
-              Your password can&apos;t be too similar to your other personal<br/>
-              information. Your password must contain at least 8 characters.<br/>
-              Your password can&apos;t be a commonly used password.<br/>
-              Your password can&apos;t be entirely numeric.<br/>
+              Your password can&apos;t be too similar to your other personal
+              <br />
+              information. Your password must contain at least 8 characters.
+              <br />
+              Your password can&apos;t be a commonly used password.
+              <br />
+              Your password can&apos;t be entirely numeric.
+              <br />
             </p>
 
             <label className="input input-bordered flex items-center gap-2">
@@ -128,19 +159,21 @@ const Register = () => {
               />
             </label>
             <p>Enter the same password as before, for verification.</p>
-            <br/>
+            <br />
 
-            {loading && <h1>Loading...</h1>}    
+            {loading && <h1>Loading...</h1>}
             {/* Loading animation/icon */}
-            <button type="submit" className="btn btn-active btn-primary">Submit</button>
+            <button type="submit" className="btn btn-active btn-primary">
+              Submit
+            </button>
           </form>
-        </>
+        </div>
+      </div>
     </>
   );
 };
 
 export default Register;
-
 
 // import { useState } from "react";
 // import api from "../api";

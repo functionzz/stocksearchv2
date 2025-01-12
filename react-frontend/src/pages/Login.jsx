@@ -33,11 +33,11 @@ const Login = () => {
 
   return (
     <>
-      <>
-        <h1>Login</h1>
-
+      <div className="bg-base-200 h-full">
+        <h1 className="flex justify-center p-10">Login</h1>
+        <div className="flex justify-center">
         <form method="POST" onSubmit={handleSubmit}>
-          <label className="input input-bordered flex items-center gap-2">
+          <label className="input input-bordered flex items-center gap-2 min-w-[500px]">
             <svg
               xmlns="http://www.w3.org/2000/svg"
               viewBox="0 0 16 16"
@@ -82,7 +82,8 @@ const Login = () => {
             Submit
           </button>
         </form>
-      </>
+        </div>
+      </div>
     </>
   );
 };
