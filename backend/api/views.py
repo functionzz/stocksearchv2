@@ -1,11 +1,14 @@
 from django.shortcuts import render
 from django.contrib.auth.models import User
 from rest_framework import generics
-from .serializers import UserSerializer, WatchlistSerializer
+from .serializers import UserSerializer, WatchlistSerializer, StockSerializer
+from rest_framework import filters
 from rest_framework.permissions import IsAuthenticated, AllowAny
-
-from .models import WatchList
-
+from rest_framework.pagination import PageNumberPagination
+from .models import WatchList, Stocks
+from django.db.models import Q
+import django_filters
+from django_filters.rest_framework import DjangoFilterBackend
 # ListCreateAPIView -> Can list querylist, and create new Object
 # CreateAPIView -> Can create new object
 
@@ -50,10 +53,24 @@ class WatchListDelete(generics.DestroyAPIView):
 
 
 
-
 class CreateUserView(generics.CreateAPIView):
     queryset = User.objects.all
     serializer_class = UserSerializer
     permission_classes = [AllowAny]
 
+    
+class SearchPagination(PageNumberPagination):
+    page_size = 5
+    page_query_param = 'page_size'
+    max_page_size = 10
 
+class StockSearchFilter(filters.SearchFilter):
+    search_param = 'q'  # Use 'q' instead of 'search'
+
+class ListStocksView(generics.ListAPIView):
+    queryset = Stocks.objects.all()
+    serializer_class = StockSerializer
+    pagination_class = SearchPagination
+    filter_backends = [StockSearchFilter]
+    permission_classes = [AllowAny]
+    search_fields = ['cik', 'ticker', 'company_name']

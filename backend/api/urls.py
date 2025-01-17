@@ -4,5 +4,6 @@ from . import views
 
 urlpatterns = [
     path("watchlist/", views.WatchListCreate.as_view(), name="watch-list"),
-    path("watchlist/delete/<int:pk>", views.WatchListDelete.as_view(), name="delete-node")
+    path("watchlist/delete/<int:pk>", views.WatchListDelete.as_view(), name="delete-node"),
+    path("search/", views.ListStocksView.as_view(), name="stock-search")
 ]
