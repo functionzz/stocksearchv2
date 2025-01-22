@@ -11,7 +11,7 @@
 // import { useState } from "react";
 
 // function App() {
-  
+
 //     const [User, setUser] = useState(null);
 
 //     const login = (userData) => {
@@ -22,11 +22,7 @@
 //       setUser(null);
 //     };
 
-  
 //   return (
-
-
-
 
 //     <UserContext.Provider value={{ User, login, logout}}>
 //       <BrowserRouter>
@@ -42,68 +38,73 @@
 //       </BrowserRouter>
 //     </UserContext.Provider>
 
-
 //   );
 // }
 
 // export default App;
 
-
-import {BrowserRouter, Routes, Route, Navigate} from "react-router-dom";
+import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 
 import ProtectedRoute from "./components/ProtectedRoutes";
 
-import './App.css';
+import "./App.css";
 import PublicHome from "./pages/PublicHome";
 import UserHome from "./pages/UserHome";
 import Layout from "./pages/Layout";
 import Login from "./pages/Login";
 import Register from "./pages/Register";
 import NotFound from "./pages/NotFound";
+import DynamicStockPage from "./pages/DynamicQuotePage";
 
 //contexts
 // import UserContext from "./contexts/UserContext";
 
 //hooks
 
-
 function Logout() {
   localStorage.clear();
-  return <Navigate to={"/login"}/>
+  return <Navigate to={"/login"} />;
 }
 
 function LogoutThenRegister() {
   localStorage.clear();
-  return <Register/>
+  return <Register />;
 }
 
 function App() {
-  
   return (
     // <UserContext.Provider value={{ User, login, logout}}>
-      <BrowserRouter>
-        <Routes>
-          <Route path="/" element={<Layout />}>
-            <Route index element={<PublicHome />} />
-            
-            <Route path="home" 
-            element={
-            <ProtectedRoute>
-              <UserHome/>
-            </ProtectedRoute>}
-            />
+    <BrowserRouter>
+      <Routes>
+        <Route path="/" element={<Layout />}>
+          <Route index element={<PublicHome />} />
 
-            <Route path="register" element={<LogoutThenRegister/>}/>
-            <Route path="login" element={<Login/>}/>
-            <Route path="logout" element={<Logout/>}/>
-            <Route path="*" element={<NotFound />} />
-          </Route>
-        </Routes>
-      </BrowserRouter>
+          <Route
+            path="home"
+            element={
+              <ProtectedRoute>
+                <UserHome />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="quote/:cik"
+            element={
+              <ProtectedRoute>
+                <DynamicStockPage />
+              </ProtectedRoute>
+            }
+          />
+
+          <Route path="register" element={<LogoutThenRegister />} />
+          <Route path="login" element={<Login />} />
+          <Route path="logout" element={<Logout />} />
+          <Route path="*" element={<NotFound />} />
+        </Route>
+      </Routes>
+    </BrowserRouter>
     // </UserContext.Provider>
   );
 }
 
 export default App;
-
-

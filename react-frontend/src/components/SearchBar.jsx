@@ -33,7 +33,8 @@ const SearchBar = () => {
     console.log(selectedResult['ticker']);
 
 
-    navigate("/s/${selectedResult['ticker']}");
+    // navigate to selected quote
+    navigate(`/quote/${selectedResult['cik']}`);
   }
 
   return (
