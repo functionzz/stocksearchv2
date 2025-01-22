@@ -1,5 +1,5 @@
 from django.contrib.auth.models import User
-from .models import WatchList, Stocks
+from .models import *
 from rest_framework import serializers
 
 
@@ -24,3 +24,23 @@ class StockSerializer(serializers.ModelSerializer):
     class Meta:
         model = Stocks
         fields = ['cik', 'ticker', 'company_name']
+
+class FilingSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Filings
+        fields = ['adsh', 'stock_cik', 'form', 'filed', 'period']
+
+class BalanceSheetSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = BsDatapoints
+        fields = ['filing_adsh', 'tag', 'ddate', 'qtrs', 'uom', 'value', 'report', 'line', 'plabel', 'negating']
+
+class IncomeStatementSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = BsDatapoints
+        fields = ['filing_adsh', 'tag', 'ddate', 'qtrs', 'uom', 'value', 'report', 'line', 'plabel', 'negating']
+
+class CashFlowSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = BsDatapoints
+        fields = ['filing_adsh', 'tag', 'ddate', 'qtrs', 'uom', 'value', 'report', 'line', 'plabel', 'negating']

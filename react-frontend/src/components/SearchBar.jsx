@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import api from "../api";
+import { useNavigate } from 'react-router-dom';
 
 const SearchBar = () => {
   const [searchVal, setSearchVal] = useState("");
@@ -7,6 +8,7 @@ const SearchBar = () => {
   const [hideSuggestions, setHideSuggestions] = useState(true);
 
   const [result, setResult] = useState(null);
+  const navigate = useNavigate();
 
   useEffect(() => {
     const res = async () => {
@@ -24,7 +26,14 @@ const SearchBar = () => {
   }, [searchVal]);
 
   const findResult = (company_name) => {
-    setResult(suggestions.find((suggestion) => suggestion.company_name === company_name))
+    const selectedResult = suggestions.find((suggestion) => suggestion.company_name === company_name);
+    // setResult(selectedResult);
+
+    // console.log(result); doesn't work b/c react waits till end of function to rerender state
+    console.log(selectedResult['ticker']);
+
+
+    navigate("/s/${selectedResult['ticker']}");
   }
 
   return (

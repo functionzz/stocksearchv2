@@ -1,11 +1,11 @@
 from django.shortcuts import render
 from django.contrib.auth.models import User
 from rest_framework import generics
-from .serializers import UserSerializer, WatchlistSerializer, StockSerializer
+from .serializers import *
 from rest_framework import filters
 from rest_framework.permissions import IsAuthenticated, AllowAny
 from rest_framework.pagination import PageNumberPagination
-from .models import WatchList, Stocks
+from .models import *
 from django.db.models import Q
 import django_filters
 from django_filters.rest_framework import DjangoFilterBackend
@@ -70,6 +70,14 @@ class StockSearchFilter(filters.SearchFilter):
 class ListStocksView(generics.ListAPIView):
     queryset = Stocks.objects.all()
     serializer_class = StockSerializer
+    pagination_class = SearchPagination
+    filter_backends = [StockSearchFilter]
+    permission_classes = [AllowAny] # Change, its not safe
+    search_fields = ['cik', 'ticker', 'company_name']
+
+class ListFilingsView(generics.ListAPIView):
+    queryset = Filings
+    serializer_class = FilingSerializer
     pagination_class = SearchPagination
     filter_backends = [StockSearchFilter]
     permission_classes = [AllowAny]
