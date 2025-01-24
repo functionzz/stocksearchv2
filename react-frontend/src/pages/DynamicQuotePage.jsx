@@ -11,6 +11,7 @@ import Table from "../components/Table";
 const DynamicStockPage = () => {
   const { cik } = useParams();
   const [companyData, setCompanyData] = useState([]);
+  const [companyFilingData, setCompanyFilingData] = useState([]);
 
   useEffect(() => {
     const stockRes = async () => {
@@ -26,10 +27,10 @@ const DynamicStockPage = () => {
 
     const filingRes = async () => {
         try {
-          const { data } = await api.get(`/api/stock/${cik}`);
+          const { data } = await api.get(`/api/stock/${cik}/filings`);
   
-          setCompanyData(data);
-          console.log(data);
+          setCompanyFilingData(data);
+          console.log(companyFilingData);
         } catch (e) {
           alert(e);
         }
@@ -53,7 +54,7 @@ const DynamicStockPage = () => {
           aria-label="Income Statement"
         />
         <div role="tabpanel" className="tab-content p-10">
-          <Table/>
+          <Table companyFilingData={companyFilingData}/>
         </div>
 
         <input
@@ -65,7 +66,7 @@ const DynamicStockPage = () => {
           defaultChecked
         />
         <div role="tabpanel" className="tab-content p-10">
-            <Table/>
+            <Table companyFilingData={companyFilingData}/>
         </div>
 
         <input
@@ -76,7 +77,7 @@ const DynamicStockPage = () => {
           aria-label="Statement of Cash Flows"
         />
         <div role="tabpanel" className="tab-content p-10">
-            <Table/>
+            <Table companyFilingData={companyFilingData}/>
         </div>
       </div>
     </>

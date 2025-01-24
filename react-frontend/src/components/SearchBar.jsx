@@ -1,41 +1,48 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import api from "../api";
-import { useNavigate } from 'react-router-dom';
+import { useNavigate } from "react-router-dom";
+import { useDebounce } from "../hooks/useDebounce";
 
 const SearchBar = () => {
   const [searchVal, setSearchVal] = useState("");
   const [suggestions, setSuggestions] = useState([]);
   const [hideSuggestions, setHideSuggestions] = useState(true);
-
-  const [result, setResult] = useState(null);
+;
   const navigate = useNavigate();
 
-  useEffect(() => {
-    const res = async () => {
-      try {
-        const { data } = await api.get('/api/search/', { params: { q: searchVal }});
+  useDebounce(
+    () => {
+      const res = async () => {
+        try {
+          const { data } = await api.get("/api/search/", {
+            params: { q: searchVal },
+          });
 
-        setSuggestions(data.results);
-        console.log(data.results);
-      } catch (e) {
-        alert(e);
-      }
-    };
+          setSuggestions(data.results);
+          console.log(data.results);
+        } catch (e) {
+          alert(e);
+        }
+      };
 
-    res();
-  }, [searchVal]);
+      res();
+    },
+    500,
+    [searchVal]
+  );
 
   const findResult = (company_name) => {
-    const selectedResult = suggestions.find((suggestion) => suggestion.company_name === company_name);
+    const selectedResult = suggestions.find(
+      (suggestion) => suggestion.company_name === company_name
+    );
     // setResult(selectedResult);
 
     // console.log(result); doesn't work b/c react waits till end of function to rerender state
-    console.log(selectedResult['ticker']);
-
+    console.log(selectedResult["ticker"]);
 
     // navigate to selected quote
-    navigate(`/quote/${selectedResult['cik']}`);
-  }
+    navigate(`/quote/${selectedResult["cik"]}`);
+  };
 
   return (
     <div className="flex-1 justify-center w-1/2">
@@ -56,14 +63,14 @@ const SearchBar = () => {
       ></input>
 
       <ul
-      className={`flex-1 justify-center menu dropdown-content bg-base-100 rounded-box z-[1] p-2 shadow ${
-        hideSuggestions ? "invisible" : "visible"}`}
+        className={`flex-1 justify-center menu dropdown-content bg-base-100 rounded-box z-[1] p-2 shadow ${
+          hideSuggestions ? "invisible" : "visible"
+        }`}
       >
         {suggestions.map((suggestion) => (
           <li
             className="cursor-pointer box-border px-[10px] py-[1px] h-8 flex items-center hover:bg-slate-700"
             key={suggestion.cik}
-
             // useNavigate to specific company page
             onClick={() => findResult(suggestion.company_name)}
           >
