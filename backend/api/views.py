@@ -72,13 +72,19 @@ class ListStocksView(generics.ListAPIView):
     serializer_class = StockSerializer
     pagination_class = SearchPagination
     filter_backends = [StockSearchFilter]
-    permission_classes = [AllowAny] # Change, its not safe
+    permission_classes = [IsAuthenticated] 
     search_fields = ['cik', 'ticker', 'company_name']
 
-class ListFilingsView(generics.ListAPIView):
-    queryset = Filings
-    serializer_class = FilingSerializer
-    pagination_class = SearchPagination
-    filter_backends = [StockSearchFilter]
+class GetStocksView(generics.RetrieveAPIView):
+    queryset = Stocks.objects.all()
+    serializer_class = StockSerializer
     permission_classes = [AllowAny]
-    search_fields = ['cik', 'ticker', 'company_name']
+    lookup_field = 'cik'
+
+class ListFilingsView(generics.ListAPIView):
+    serializer_class = FilingSerializer
+    permission_classes = [AllowAny]
+
+    def get_queryset(self):
+        company_cik = self.kwargs['cik']
+        return Filings.objects.filter(stock_cik__cik=company_cik)
